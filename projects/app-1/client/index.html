@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Docker Network Demo</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>🐳 Docker Network Demo</h1>
+
+        <p class="subtitle">
+            Client → API Server
+        </p>
+
+
+        <!-- Test button -->
+
+        <button id="testButton">
+            Test API
+        </button>
+
+
+        <!-- API status -->
+
+        <div id="status" class="status">
+            Waiting for API...
+        </div>
+
+
+        <!-- Network information -->
+
+        <section class="card">
+
+            <h2>🌐 Network Information</h2>
+
+            <div class="row">
+                <span>Domain / Host</span>
+                <strong id="host">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Protocol</span>
+                <strong id="protocol">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Port</span>
+                <strong id="port">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Client IP</span>
+                <strong id="clientIp">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Server IP</span>
+                <strong id="serverIp">-</strong>
+            </div>
+
+        </section>
+
+
+        <!-- Server information -->
+
+        <section class="card">
+
+            <h2>🖥️ Server Information</h2>
+
+            <div class="row">
+                <span>Hostname</span>
+                <strong id="hostname">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Server IP</span>
+                <strong id="serverContainerIp">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Platform</span>
+                <strong id="platform">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Architecture</span>
+                <strong id="architecture">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Node.js</span>
+                <strong id="nodeVersion">-</strong>
+            </div>
+
+        </section>
+
+
+        <!-- API response -->
+
+        <section class="card">
+
+            <h2>📡 API Response</h2>
+
+            <pre id="apiResponse">Waiting...</pre>
+
+        </section>
+
+
+        <!-- Client information -->
+
+        <section class="card">
+
+            <h2>💻 Browser Information</h2>
+
+            <div class="row">
+                <span>Browser Host</span>
+                <strong id="browserHost">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Screen</span>
+                <strong id="screen">-</strong>
+            </div>
+
+            <div class="row">
+                <span>Language</span>
+                <strong id="language">-</strong>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

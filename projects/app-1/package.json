@@ -1,0 +1,16 @@
+{
+  "name": "app-1",
+  "version": "1.0.0",
+  "description": "simple",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
