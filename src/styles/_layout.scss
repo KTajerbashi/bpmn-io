@@ -1,0 +1,18 @@
+/* =========================================================
+   10. Layout
+   ========================================================= */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page-content {
+  padding: var(--space-6);
+}

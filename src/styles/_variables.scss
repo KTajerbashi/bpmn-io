@@ -1,0 +1,71 @@
+/* =========================================================
+   1. CSS Variables / Theme
+   ========================================================= */
+
+:root {
+  // Colors
+  --color-primary: #3f51b5;
+  --color-primary-hover: #303f9f;
+  --color-secondary: #64748b;
+
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-info: #0284c7;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-text: #eaf2ff;
+  --color-text-secondary: #535f6e;
+  --color-text-muted: #94a3b8;
+
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+
+  // Typography
+  --font-family: Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+
+  // Radius
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  // Shadows
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 5%);
+
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 8%);
+
+  --shadow-lg: 0 10px 25px rgb(0 0 0 / 10%);
+
+  // Spacing
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  // Layout
+  --container-width: 1440px;
+  --header-height: 64px;
+  --sidebar-width: 260px;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
