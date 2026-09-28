@@ -1,0 +1,3 @@
+interface IBaseDTO {
+  entityId?: string;
+}
