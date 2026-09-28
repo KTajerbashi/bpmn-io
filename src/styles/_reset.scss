@@ -1,3 +1,35 @@
+@font-face {
+  font-family: 'IRANSansWeb';
+  src: url('/src/assets/fonts/IRANSansWeb.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSansWeb_Bold';
+  src: url('/src/assets/fonts/IRANSansWeb_Bold.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSansWeb_Light';
+  src: url('/src/assets/fonts/IRANSansWeb_Light.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSansWeb_Medium';
+  src: url('/src/assets/fonts/IRANSansWeb_Medium.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* =========================================================
    2. CSS Reset
    ========================================================= */
@@ -11,6 +43,7 @@
 html,
 body {
   margin: 0;
+  font-family: 'IRANSansWeb', sans-serif;
   padding: 0;
   min-height: 100%;
 }
