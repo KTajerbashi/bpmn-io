@@ -1,0 +1,79 @@
+// ======================================================
+// App Layout
+// ======================================================
+
+#app-layout,
+.app-layout {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0, 255, 200, 0.08), transparent 28%),
+    radial-gradient(circle at 85% 80%, rgba(98, 0, 255, 0.1), transparent 30%),
+    linear-gradient(135deg, #030712, #08111f 50%, #0a0f1d);
+}
+
+// ======================================================
+// Background Grid
+// ======================================================
+
+// ظریف کردن Grid مخصوص محیط طراحی
+.app-layout::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+
+  background-size: 24px 24px;
+
+  pointer-events: none;
+}
+
+// نور مرکزی بسیار نرم
+.app-layout::after {
+  content: '';
+
+  position: absolute;
+
+  width: 700px;
+  height: 700px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: radial-gradient(circle, rgba(0, 140, 255, 0.05), transparent 70%);
+
+  pointer-events: none;
+}
+
+// ======================================================
+// Content
+// ======================================================
+
+.app-content {
+  position: relative;
+  z-index: 1;
+
+  min-height: calc(100vh - 120px);
+
+  padding: 1.5rem;
+}
+
+// ======================================================
+// Header / Footer Layer
+// ======================================================
+
+app-header,
+app-footer {
+  position: relative;
+  z-index: 10;
+}

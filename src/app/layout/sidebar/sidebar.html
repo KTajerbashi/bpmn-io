@@ -1,0 +1,34 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <span class="logo-mark">B</span>
+      <span class="logo-text">BPMN IO</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    @for (menu of menus(); track menu.entityId) {
+      <a
+        class="sidebar-item"
+        [routerLink]="menu.link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="sidebar-icon">
+          {{ menu.icon }}
+        </span>
+
+        <span class="sidebar-title">
+          {{ menu.title }}
+        </span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-item">
+      <span class="sidebar-icon">⚙</span>
+      <span class="sidebar-title">Settings</span>
+    </div>
+  </div>
+</aside>

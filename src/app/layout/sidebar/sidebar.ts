@@ -1,14 +1,22 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
+export interface IMenuDTO {
+  entityId: string;
+  name: string;
+  title: string;
+  icon: string;
+  link: string;
+  children?: IMenuDTO[];
+}
+
 @Component({
+  selector: 'app-sidebar',
   imports: [RouterLink, RouterLinkActive],
-  standalone: true,
-  selector: 'app-header',
-  styleUrl: './header.scss',
-  templateUrl: './header.html',
+  templateUrl: './sidebar.html',
+  styleUrl: './sidebar.scss',
 })
-export class Header implements OnInit {
+export class Sidebar implements OnInit {
   menus = signal<IMenuDTO[]>([]);
 
   ngOnInit(): void {
@@ -23,33 +31,6 @@ export class Header implements OnInit {
         title: 'Dashboard',
         icon: '⌂',
         link: '/dashboard',
-        children: [],
-      },
-
-      {
-        entityId: 'designer',
-        name: 'designer',
-        title: 'Designer',
-        icon: '⌘',
-        link: '/designer',
-        children: [],
-      },
-
-      {
-        entityId: 'processes',
-        name: 'processes',
-        title: 'Processes',
-        icon: '▦',
-        link: '/processes',
-        children: [],
-      },
-
-      {
-        entityId: 'templates',
-        name: 'templates',
-        title: 'Templates',
-        icon: '◫',
-        link: '/templates',
         children: [],
       },
       {

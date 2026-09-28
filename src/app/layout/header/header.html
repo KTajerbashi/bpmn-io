@@ -1,5 +1,4 @@
 <header class="app-header">
-
   <!-- Brand -->
   <div class="header-brand">
     <div class="brand-logo">
@@ -13,32 +12,33 @@
   </div>
 
   <!-- Center Navigation -->
-  <nav class="header-navigation">
+  <nav class="header-navigation" aria-label="Main navigation">
+    @for (menu of menus(); track menu.entityId) {
+      <a
+        class="nav-item"
+        [routerLink]="menu.link"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="nav-icon" aria-hidden="true">
+          {{ menu.icon }}
+        </span>
 
-    <a class="nav-item active">
-      <span class="nav-icon">⌘</span>
-      <span>Designer</span>
-    </a>
-
-    <a class="nav-item">
-      <span class="nav-icon">▦</span>
-      <span>Processes</span>
-    </a>
-
-    <a class="nav-item">
-      <span class="nav-icon">◫</span>
-      <span>Templates</span>
-    </a>
-
+        <span class="nav-title">
+          {{ menu.title }}
+        </span>
+      </a>
+    }
   </nav>
-
   <!-- Actions -->
   <div class="header-actions">
-
     <!-- Search -->
-    <button class="header-button search-button">
-      <span class="button-icon">⌕</span>
-      <span>Search</span>
+    <button class="header-button" type="button" aria-label="Open search">
+      <span class="search-content">
+        <span class="button-icon">⌕</span>
+        <span class="search-label">Search</span>
+      </span>
+
       <kbd>Ctrl K</kbd>
     </button>
 
@@ -64,10 +64,7 @@
 
     <!-- User -->
     <button class="user-menu">
-
-      <div class="user-avatar">
-        TS
-      </div>
+      <div class="user-avatar">TS</div>
 
       <div class="user-info">
         <span class="user-name">Tajer System</span>
@@ -75,9 +72,6 @@
       </div>
 
       <span class="user-arrow">⌄</span>
-
     </button>
-
   </div>
-
 </header>
