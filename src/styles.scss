@@ -4,3 +4,5 @@
 @use './styles/layout';
 @use './styles/utilities';
 @use './styles/components';
+@import 'bpmn-js/dist/assets/diagram-js.css';
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';

@@ -22,6 +22,7 @@
     "@angular/ssr": "^22.0.7",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
+    "bpmn-js": "^18.30.1",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
