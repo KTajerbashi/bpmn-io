@@ -3,15 +3,447 @@
   width: 100%;
   height: 100%;
   min-height: 500px;
+  --designer-border: #e5e7eb;
+  --designer-text: #172033;
+  --designer-muted: #6b7280;
+  --designer-primary: #2563eb;
+  --designer-primary-dark: #1d4ed8;
+  --designer-surface: #ffffff;
+  --designer-canvas: #f8fafc;
 }
-.app-designer{
-  border: 1px solid wheat;
-  border-radius: 10px;
+
+/* =========================================================
+   BPMN.JS - Context Pad
+   ========================================================= */
+
+:host ::ng-deep .djs-context-pad {
+  z-index: 100;
+}
+
+:host ::ng-deep .djs-context-pad .entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  margin: 2px;
+
+  color: #1f2937;
+  background: #ffffff;
+
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.08);
+
+  opacity: 1;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+:host ::ng-deep .djs-context-pad .entry:hover {
+  color: #1d4ed8;
+
+  background: #eff6ff;
+
+  border-color: #3b82f6;
+
+  box-shadow:
+    0 2px 6px rgba(37, 99, 235, 0.15);
+}
+
+:host ::ng-deep .djs-context-pad .entry:active {
+  background: #dbeafe;
+}
+
+/* BPMN embedded icons */
+
+:host ::ng-deep .djs-context-pad .entry::before {
+  opacity: 1;
+}
+
+/* =========================================================
+   BPMN.JS - Palette
+   ========================================================= */
+
+:host ::ng-deep .djs-palette {
+  background: rgba(255, 255, 255, 0.98);
+
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.10);
+
+  opacity: 1;
+}
+
+:host ::ng-deep .djs-palette .entry {
+  color: #1f2937;
+
+  opacity: 1;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+:host ::ng-deep .djs-palette .entry:hover {
+  color: #1d4ed8;
+
+  background: #eff6ff;
+}
+
+:host ::ng-deep .djs-palette .separator {
+  border-color: #e5e7eb;
+}
+
+/* =========================================================
+   BPMN.JS - Selected Element
+   ========================================================= */
+
+:host ::ng-deep .djs-element.selected .djs-outline {
+  stroke: #2563eb !important;
+  stroke-width: 2px !important;
+}
+
+:host ::ng-deep .djs-element.hover .djs-outline {
+  stroke: #60a5fa;
+}
+
+/* =========================================================
+   BPMN.JS - Connection
+   ========================================================= */
+
+:host ::ng-deep .djs-connection .djs-visual path {
+  stroke: #374151;
+}
+
+:host ::ng-deep .djs-connection.selected .djs-visual path {
+  stroke: #2563eb;
+  stroke-width: 2px;
+}
+
+.app-designer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
   height: 80vh;
+  min-height: 500px;
+
+  overflow: hidden;
+
+  background: var(--designer-surface);
+  border: 1px solid var(--designer-border);
+  border-radius: 12px;
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 24px rgba(15, 23, 42, 0.06);
 }
-.designer {
+
+/* ---------------------------------------------------------
+   Toolbar
+--------------------------------------------------------- */
+
+.designer-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 60px;
+  padding: 0 14px;
+
+  background: #ffffff;
+  border-bottom: 1px solid var(--designer-border);
+
+  z-index: 10;
+}
+
+.toolbar-left,
+.toolbar-right,
+.designer-action,
+.history-actions {
+  display: flex;
+  align-items: center;
+
+}
+
+.toolbar-left {
+  min-width: 0;
+  gap: 14px;
+}
+
+.toolbar-right {
+  gap: 6px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 28px;
+  margin: 0 2px;
+
+  background: var(--designer-border);
+}
+
+/* ---------------------------------------------------------
+   Brand
+--------------------------------------------------------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 150px;
+}
+
+.brand-mark {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(2, 7px);
+  grid-template-rows: repeat(2, 7px);
+  gap: 3px;
+
+  width: 20px;
+  height: 20px;
+}
+
+.brand-mark span {
+  display: block;
+
+  border-radius: 2px;
+  background: var(--designer-primary);
+}
+
+.brand-mark span:nth-child(2) {
+  opacity: 0.7;
+}
+
+.brand-mark span:nth-child(3) {
+  opacity: 0.45;
+}
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  line-height: 1;
+}
+
+.brand-copy strong {
+  color: var(--designer-text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.brand-copy span {
+  color: var(--designer-muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------
+   Toolbar buttons
+--------------------------------------------------------- */
+
+.designer-action {
+  gap: 10px;
+}
+
+.icon-btn,
+.save-btn,
+.canvas-control {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+
+
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  color: #64748b;
+  background: transparent;
+  border-radius: 6px;
+}
+
+.icon-btn:hover {
+  color: var(--designer-text);
+  background: #f3f4f6;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+
+
+/* ---------------------------------------------------------
+   Workspace
+--------------------------------------------------------- */
+
+.designer-workspace {
+  position: relative;
+  flex: 1 1 auto;
+
+  min-height: 0;
+  overflow: hidden;
+
+  background: var(--designer-canvas);
+}
+
+/*
+ * The subtle grid is intentionally on the workspace rather
+ * than the BPMN container itself. This means bpmn.io remains
+ * free to control the canvas.
+ */
+
+.designer-workspace::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background-image:
+    linear-gradient(to right,
+      rgba(148, 163, 184, 0.12) 1px,
+      transparent 1px),
+    linear-gradient(to bottom,
+      rgba(148, 163, 184, 0.12) 1px,
+      transparent 1px);
+
+  background-size: 20px 20px;
+}
+
+.bpmn-container {
+  position: absolute;
+  inset: 0;
+
   width: 100%;
   height: 100%;
-  min-height: 500px;
+
   overflow: hidden;
+
+  background: transparent;
+
+  z-index: 1;
 }
+
+/* ---------------------------------------------------------
+   Floating canvas controls
+--------------------------------------------------------- */
+
+.canvas-controls {
+  position: absolute;
+  right: 18px;
+  bottom: 48px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 4px;
+
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--designer-border);
+  border-radius: 8px;
+
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.08),
+    0 8px 20px rgba(15, 23, 42, 0.06);
+
+  z-index: 5;
+}
+
+.canvas-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  color: #64748b;
+  background: transparent;
+  border-radius: 5px;
+}
+
+.canvas-control:hover {
+  color: var(--designer-text);
+  background: #f1f5f9;
+}
+
+.canvas-control .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.control-divider {
+  width: 22px;
+  height: 1px;
+  margin: 3px 0;
+
+  background: var(--designer-border);
+}
+
+/* --------------------------------------------------------- Status bar --------------------------------------------------------- */
+.designer-statusbar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  padding: 0 10px;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid var(--designer-border);
+  font-size: 11px;
+  z-index: 6;
+}
+
+.status-left,
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.status-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.12);
+}
+

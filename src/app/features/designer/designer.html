@@ -1,3 +1,122 @@
 <div class="app-designer">
-  <div #ref class="designer" aria-label="BPMN Designer"></div>
+
+  <!-- Toolbar -->
+  <div class="designer-toolbar">
+    <div class="toolbar-left">
+      <div class="designer-action">
+        <button type="button" class="btn btn-primary" title="Create new diagram" (click)="newDiagram()">
+          New
+        </button>
+        <button type="button" class="btn btn-danger" title="Reset diagram" (click)="reset()">
+          Reset
+        </button>
+        <button type="button" class="btn btn-warning" title="Edit diagram" (click)="edit()">
+          Edit
+        </button>
+        <button type="button" class="btn btn-light" title="Save diagram as BPMN file" (click)="saveAs()">
+          Save As
+        </button>
+
+        <button type="button" class="btn btn-light" title="Save diagram as BPMN file" (click)="onLoadTemplates()">
+          Load Template
+        </button>
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+
+      <!-- Undo -->
+      <button type="button" class="btn btn-outline-dark" title="Undo" (click)="undo()">
+        undo
+      </button>
+
+      <!-- Redo -->
+      <button type="button" class="btn btn-outline-dark" title="Redo" (click)="redo()">
+        redo
+      </button>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- SVG -->
+      <button type="button" class="btn btn-outline-dark" title="Export SVG" (click)="exportSvg()">
+        image
+      </button>
+
+      <!-- Save -->
+      <button type="button" class="btn btn-outline-success" [class.has-changes]="isDirty" (click)="save()">
+        Save
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- BPMN Workspace -->
+  <div class="designer-workspace">
+
+    <div #canvas class="bpmn-container" tabindex="0" aria-label="BPMN diagram editor">
+    </div>
+
+
+    <!-- Floating Controls -->
+    <div class="canvas-controls">
+
+      <button type="button" class="canvas-control" title="Zoom in" (click)="zoomIn()">
+
+        <span class="material-symbols-outlined">
+          +
+        </span>
+
+      </button>
+
+
+      <div class="zoom-value">
+        {{ zoomLevel }}%
+      </div>
+
+
+      <button type="button" class="canvas-control" title="Zoom out" (click)="zoomOut()">
+
+        <span class="material-symbols-outlined">
+          -
+        </span>
+
+      </button>
+
+
+      <div class="control-divider"></div>
+
+
+      <button type="button" class="canvas-control" title="Fit diagram" (click)="fitViewport()">
+
+        <span class="material-symbols-outlined">
+          fit
+        </span>
+
+      </button>
+
+
+      <button type="button" class="canvas-control" title="Reset zoom" (click)="resetZoom()">
+
+        <span class="material-symbols-outlined">
+          1x
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- Status bar -->
+    <div class="designer-statusbar">
+      <div class="status-left">
+        <span class="status-indicator" [class.ready]="isReady">
+        </span>
+        <span>
+          {{ isDirty ? 'Unsaved changes' : 'Ready' }}
+        </span>
+      </div>
+    </div>
+  </div>
 </div>
