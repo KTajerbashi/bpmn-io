@@ -1,213 +1,236 @@
 <div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
-      <button class="btn btn-outline-primary me-2"
-        (click)="onSelectedForm(1)">Version 1</button>
-      <button class="btn btn-outline-primary me-2"
-        (click)="onSelectedForm(2)">Version 2</button>
-    </div>
-  </div>
-  @if (userForm && formDefinition) {
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-10">
-      <form
-        [formGroup]="userForm"
-        (ngSubmit)="onSubmit()"
-        novalidate>
-        <!-- Header -->
-        <div class="mb-4">
-          <h4 class="fw-semibold mb-1">
-            {{ formDefinition.title }}
-          </h4>
-          <p
-            class="text-muted border rounded-1 text-center bg-dark bg-dark-subtle mb-0">
-            Version {{ formDefinition.version }}
-          </p>
-        </div>
-        <!-- Controls -->
+      <form [formGroup]="dasboardForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="row g-3">
-          @for (
-          control of formDefinition.controls;
-          track control.id
-          ) {
-          <div
-            [class]="'col-12 col-md-' +(control.width ?? 12)">
-            <!-- Label -->
-            @if (control.type !== 'checkbox') {
-            <label
-              [for]="control.key"
-              class="form-label">
-              {{ control.label }}
-              @if (control.required) {
-              <span class="text-danger">
-                *
-              </span>
-              }
-            </label>
-            }
-            <!-- TEXT -->
-            @if (control.type === 'text') {
-            <input
-              [id]="control.key"
-              type="text"
+          <div class="col-12">
+            <select
+              id="version"
+              class="form-select"
+              formControlName="version"
+              [class.is-invalid]="
+                dasboardForm.get('version')?.invalid &&
+                dasboardForm.get('version')?.touched">
+              <option [ngValue]="0">Select...</option>
+              <option [ngValue]="1">Version 1</option>
+              <option [ngValue]="2">Version 2</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label>Title</label>
+            <input class="form-control" id="title" name="title" type="text"
+              placeholder="Title ..."
+              formControlName="title" />
+          </div>
+          <div class="col-12">
+            <label>Description</label>
+            <textarea id="description" name="description" rows="3"
+              placeholder="Description ..."
               class="form-control"
-              [formControlName]="control.key"
-              [placeholder]="
+              formControlName="description"></textarea>
+          </div>
+        </div>
+        @if (formDefinition) {
+        <div class="row g-3" formGroupName="option">
+          <div class="col-12 col-lg-12">
+            <!-- Header -->
+            <div class="mb-4 text-center border border-1 mt-2 p-2 rounded-2">
+              <h4 class="fw-semibold mb-1">
+                {{ formDefinition.title }}
+              </h4>
+              <p
+                class="text-muted border rounded-1 text-center bg-dark bg-dark-subtle mb-0">
+                Version {{ formDefinition.version }}
+              </p>
+            </div>
+            <!-- Controls -->
+            <div class="row g-3">
+              @for (
+              control of formDefinition.controls;
+              track control.id
+              ) {
+              <div
+                [class]="'col-12 col-md-' +(control.width ?? 12)">
+                <!-- Label -->
+                @if (control.type !== 'checkbox') {
+                <label
+                  [for]="control.key"
+                  class="form-label">
+                  {{ control.label }}
+                  @if (control.required) {
+                  <span class="text-danger">
+                    *
+                  </span>
+                  }
+                </label>
+                }
+                <!-- TEXT -->
+                @if (control.type === 'text') {
+                <input
+                  [id]="control.key"
+                  type="text"
+                  class="form-control"
+                  [formControlName]="control.key"
+                  [placeholder]="
                       control.placeholder ?? ''
                     "
-              [class.is-invalid]="
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     " />
-            }
-            <!-- PASSWORD -->
-            @if (control.type === 'password') {
-            <input
-              [id]="control.key"
-              type="password"
-              class="form-control"
-              [formControlName]="control.key"
-              [placeholder]="
+                }
+                <!-- PASSWORD -->
+                @if (control.type === 'password') {
+                <input
+                  [id]="control.key"
+                  type="password"
+                  class="form-control"
+                  [formControlName]="control.key"
+                  [placeholder]="
                       control.placeholder ?? ''
                     "
-              [class.is-invalid]="
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     " />
-            }
-            <!-- EMAIL -->
-            @if (control.type === 'email') {
-            <input
-              [id]="control.key"
-              type="email"
-              class="form-control"
-              [formControlName]="control.key"
-              [placeholder]="
+                }
+                <!-- EMAIL -->
+                @if (control.type === 'email') {
+                <input
+                  [id]="control.key"
+                  type="email"
+                  class="form-control"
+                  [formControlName]="control.key"
+                  [placeholder]="
                       control.placeholder ?? ''
                     "
-              [class.is-invalid]="
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     " />
 
-            }
-            <!-- PHONE -->
-            @if (control.type === 'phone') {
-            <input
-              [id]="control.key"
-              type="tel"
-              class="form-control"
-              [formControlName]="control.key"
-              [placeholder]="
+                }
+                <!-- PHONE -->
+                @if (control.type === 'phone') {
+                <input
+                  [id]="control.key"
+                  type="tel"
+                  class="form-control"
+                  [formControlName]="control.key"
+                  [placeholder]="
                       control.placeholder ?? ''
                     "
-              [class.is-invalid]="
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     " />
-            }
+                }
 
-            <!-- NUMBER -->
-            @if (control.type === 'number') {
-            <input
-              [id]="control.key"
-              type="number"
-              class="form-control"
-              [formControlName]="control.key"
-              [class.is-invalid]="
+                <!-- NUMBER -->
+                @if (control.type === 'number') {
+                <input
+                  [id]="control.key"
+                  type="number"
+                  class="form-control"
+                  [formControlName]="control.key"
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     " />
-            }
+                }
 
-            <!-- TEXTAREA -->
-            @if (control.type === 'textarea') {
-            <textarea
-              [id]="control.key"
-              class="form-control"
-              [formControlName]="control.key"
-              rows="3"
-              [placeholder]="
+                <!-- TEXTAREA -->
+                @if (control.type === 'textarea') {
+                <textarea
+                  [id]="control.key"
+                  class="form-control"
+                  [formControlName]="control.key"
+                  rows="3"
+                  [placeholder]="
                       control.placeholder ?? ''
                     "
-              [class.is-invalid]="
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     "></textarea>
-            }
+                }
 
-            <!-- SELECT -->
-            @if (control.type === 'select') {
-            <select
-              [id]="control.key"
-              class="form-select"
-              [formControlName]="control.key"
-              [class.is-invalid]="
+                <!-- SELECT -->
+                @if (control.type === 'select') {
+                <select
+                  [id]="control.key"
+                  class="form-select"
+                  [formControlName]="control.key"
+                  [class.is-invalid]="
                       getControl(control.key)?.invalid &&
                       getControl(control.key)?.touched
                     ">
-              <option [ngValue]="null">
-                Select...
-              </option>
-              @for (
-              option of control.options ?? [];
-              track option.value
-              ) {
-              <option
-                [ngValue]="option.value">
-                {{ option.label }}
-              </option>
-              }
-            </select>
-            }
+                  <option [ngValue]="null">
+                    Select...
+                  </option>
+                  @for (
+                  option of control.options ?? [];
+                  track option.value
+                  ) {
+                  <option
+                    [ngValue]="option.value">
+                    {{ option.label }}
+                  </option>
+                  }
+                </select>
+                }
 
-            <!-- CHECKBOX -->
-            @if (control.type === 'checkbox') {
-            <div class="form-check">
-              <input
-                [id]="control.key"
-                type="checkbox"
-                class="form-check-input"
-                [formControlName]="control.key" />
-              <label
-                [for]="control.key"
-                class="form-check-label">
-                {{ control.label }}
-              </label>
-            </div>
-            }
+                <!-- CHECKBOX -->
+                @if (control.type === 'checkbox') {
+                <div class="form-check">
+                  <input
+                    [id]="control.key"
+                    type="checkbox"
+                    class="form-check-input"
+                    [formControlName]="control.key" />
+                  <label
+                    [for]="control.key"
+                    class="form-check-label">
+                    {{ control.label }}
+                  </label>
+                </div>
+                }
 
-            <!-- VALIDATION -->
-            @if (
-            getControl(control.key)?.invalid &&
-            getControl(control.key)?.touched
-            ) {
-            <div class="invalid-feedback d-block">
-              @if (
-              hasError(
-              control.key,
-              'required'
-              )
-              ) {
-              {{ control.label }}is required.}
-              @if (hasError(control.key,'email')) {
-              Please enter a valid email.
-              }
-              @if (hasError(control.key,'maxlength')) {
-              {{ control.label }} is too long.
-              }
-              @if (hasError(control.key,'minlength')) {
-              {{ control.label }} is too short.
-              }
-              @if (hasError(control.key,'pattern')) {
-              Invalid
-              {{ control.label }}.
+                <!-- VALIDATION -->
+                @if (
+                getControl(control.key)?.invalid &&
+                getControl(control.key)?.touched
+                ) {
+                <div class="invalid-feedback d-block">
+                  @if (
+                  hasError(
+                  control.key,
+                  'required'
+                  )
+                  ) {
+                  {{ control.label }}is required.}
+                  @if (hasError(control.key,'email')) {
+                  Please enter a valid email.
+                  }
+                  @if (hasError(control.key,'maxlength')) {
+                  {{ control.label }} is too long.
+                  }
+                  @if (hasError(control.key,'minlength')) {
+                  {{ control.label }} is too short.
+                  }
+                  @if (hasError(control.key,'pattern')) {
+                  Invalid
+                  {{ control.label }}.
+                  }
+                </div>
+                }
+              </div>
               }
             </div>
-            }
+
           </div>
-          }
         </div>
+        }
         <!-- Actions -->
         <div
           class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
@@ -220,12 +243,12 @@
           <button
             type="submit"
             class="btn btn-primary px-4"
-            [disabled]="userForm.invalid">
+            [disabled]="dasboardForm.invalid">
             Save
           </button>
         </div>
       </form>
     </div>
   </div>
-  }
+
 </div>

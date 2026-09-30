@@ -20,19 +20,23 @@ export class Dashboard implements OnInit {
   private readonly dynamicFormBuilder = inject(DynamicFormBuilderService);
   formDefinition!: DynamicForm;
   dasboardForm: FormGroup;
-  userForm!: FormGroup;
+  // userForm!: FormGroup;
 
-  /**
-   *
-   */
   constructor(private fb: FormBuilder) {
     this.dasboardForm = this.fb.group({
       title: ['', [Validators.required]],
       description: ['', Validators.required],
+      version: [0, Validators.required],
       option: this.fb.group({}),
     });
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.dasboardForm.get('version')?.valueChanges.subscribe((version: number) => {
+      console.log('[version]', version);
+      this.loadForm(version, version);
+    });
+  }
 
   onSelectedForm(version: number) {
     console.log('[version]', version);
@@ -42,9 +46,9 @@ export class Dashboard implements OnInit {
   private loadForm(formId: number, version: number): void {
     this.dynamicFormService.getForm(formId, version).subscribe({
       next: (definition) => {
-        console.log('[definition]', definition);
         this.formDefinition = definition;
-        this.userForm = this.dynamicFormBuilder.build(definition);
+        const userForm = this.dynamicFormBuilder.build(definition);
+        this.dasboardForm.setControl('option', userForm);
       },
       error: (error) => {
         console.error('Failed to load form', error);
@@ -53,28 +57,29 @@ export class Dashboard implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.userForm) {
+    if (!this.dasboardForm) {
       return;
     }
-    if (this.userForm.invalid) {
-      this.userForm.markAllAsTouched();
+    if (this.dasboardForm.invalid) {
+      this.dasboardForm.markAllAsTouched();
       return;
     }
-    const formValue = this.userForm.getRawValue();
+    const formValue = this.dasboardForm.getRawValue();
     console.log('Form Value:', formValue);
     console.log('Form Definition:', this.formDefinition);
     // Call API here
   }
 
   onCancel(): void {
-    if (!this.userForm) {
+    if (!this.dasboardForm) {
       return;
     }
-    this.userForm.reset();
+    this.dasboardForm.reset();
   }
 
   getControl(key: string) {
-    return this.userForm.get(key);
+    // return this.dasboardForm.get(key);
+    return this.dasboardForm.get(`option.${key}`);
   }
 
   hasError(key: string, error: string): boolean {

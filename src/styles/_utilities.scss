@@ -1,0 +1,47 @@
+.form-control {
+  background: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+.form-control::placeholder {
+  color: rgba(245, 222, 179, 0.452);
+}
+
+.form-control:focus {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.form-control:focus-visible {
+  background: rgba(139, 9, 9, 0.5);
+  color: white;
+}
+.form-control:focus-within {
+  background: rgba(19, 23, 46, 0.5);
+  color: white;
+  border: 1px solid rgb(0, 81, 95);
+  box-shadow: 0 0 2px 2px rgba(29, 67, 124, 0.2);
+}
+
+.form-select {
+  background: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+.form-select::placeholder {
+  color: rgba(245, 222, 179, 0.452);
+}
+
+.form-select:focus {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.form-select:focus-visible {
+  background: rgba(139, 9, 9, 0.5);
+  color: white;
+}
+.form-select:focus-within {
+  background: rgba(19, 23, 46, 0.5);
+  color: white;
+  border: 1px solid rgb(0, 81, 95);
+  box-shadow: 0 0 2px 2px rgba(29, 67, 124, 0.2);
+}
