@@ -1,0 +1,153 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()">
+
+  <div class="row g-3">
+
+    @for (
+      control of definition.controls;
+      track control.key
+    ) {
+
+      <div
+        class="col-12"
+        [class.col-md-6]="control.width === 6"
+        [class.col-md-4]="control.width === 4"
+        [class.col-md-3]="control.width === 3"
+        [class.col-md-12]="control.width === 12"
+      >
+
+        @switch (control.type) {
+
+          @case ('text') {
+
+            <input
+              class="form-control"
+              [formControlName]="control.key"
+              [placeholder]="control.placeholder ?? ''"
+            />
+
+          }
+
+          @case ('textarea') {
+
+            <textarea
+              class="form-control"
+              [formControlName]="control.key"
+              rows="3"
+              [placeholder]="control.placeholder ?? ''"
+            ></textarea>
+
+          }
+
+          @case ('email') {
+
+            <input
+              type="email"
+              class="form-control"
+              [formControlName]="control.key"
+              [placeholder]="control.placeholder ?? ''"
+            />
+
+          }
+
+          @case ('phone') {
+
+            <input
+              type="tel"
+              class="form-control"
+              [formControlName]="control.key"
+              [placeholder]="control.placeholder ?? ''"
+            />
+
+          }
+
+          @case ('number') {
+
+            <input
+              type="number"
+              class="form-control"
+              [formControlName]="control.key"
+            />
+
+          }
+
+          @case ('date') {
+
+            <input
+              type="date"
+              class="form-control"
+              [formControlName]="control.key"
+            />
+
+          }
+
+          @case ('select') {
+
+            <select
+              class="form-select"
+              [formControlName]="control.key"
+            >
+
+              <option value="">
+                Select...
+              </option>
+
+              @for (
+                option of control.options;
+                track option.value
+              ) {
+
+                <option [value]="option.value">
+                  {{ option.label }}
+                </option>
+
+              }
+
+            </select>
+
+          }
+
+          @case ('checkbox') {
+
+            <div class="form-check">
+
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [id]="control.key"
+                [formControlName]="control.key"
+              />
+
+              <label
+                class="form-check-label"
+                [for]="control.key"
+              >
+                {{ control.label }}
+              </label>
+
+            </div>
+
+          }
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+  <div class="mt-4">
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid"
+    >
+      Submit
+    </button>
+
+  </div>
+
+</form>
