@@ -14,7 +14,6 @@ export class DialogService {
     private readonly dialog = inject(MatDialog);
 
     open<T>(component: ComponentType<T>, config?: MatDialogConfig): MatDialogRef<T> {
-
         return this.dialog.open(component, config);
     }
 }
