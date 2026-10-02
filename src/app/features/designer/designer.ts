@@ -5,6 +5,7 @@ import {
   OnDestroy,
   ViewChild,
   afterNextRender,
+  inject,
 } from '@angular/core';
 
 import BpmnModeler from 'bpmn-js/lib/Modeler';
@@ -15,6 +16,8 @@ import type EventBus from 'diagram-js/lib/core/EventBus';
 import type Selection from 'diagram-js/lib/features/selection/Selection';
 
 import { TEMPLATE } from './configuration';
+import { DialogService } from '../../core/services/dialog.service';
+import { DiagramList } from './dialogs/diagram-list/diagram-list';
 
 @Component({
   selector: 'app-designer',
@@ -27,17 +30,11 @@ export class Designer implements AfterViewInit, OnDestroy {
 
   @ViewChild('canvas', { static: true })
   private canvas!: ElementRef<HTMLDivElement>;
-
   private modeler?: BpmnModeler;
-
   private canvasService?: Canvas;
-
   private commandStack?: CommandStack;
-
   private eventBus?: EventBus;
-
   private selection?: Selection;
-
   /**
    * Indicates whether the diagram has unsaved changes.
    */
@@ -57,6 +54,8 @@ export class Designer implements AfterViewInit, OnDestroy {
    * Current zoom level.
    */
   public zoomLevel = 1;
+
+  private readonly dialogService = inject(DialogService);
 
   constructor() {
 
@@ -78,6 +77,27 @@ export class Designer implements AfterViewInit, OnDestroy {
 
     this.destroyModeler();
 
+  }
+
+  onLoadDiagrams() {
+    console.log('[onLoadDiagrams]')
+    const dialogRef = this.dialogService.open(
+      DiagramList,
+      {
+        width: '600px',
+        data: {
+          title: 'Hello'
+        }
+      }
+    );
+    console.log('dialogRef', dialogRef)
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        console.log('Dialog result:', result);
+      }
+
+    });
   }
 
   // =========================================================
@@ -375,42 +395,19 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async save(): Promise<void> {
-
     if (!this.modeler) {
-
-      console.error(
-        'BPMN modeler is not initialized.'
-      );
-
+      console.error('BPMN modeler is not initialized.');
       return;
-
     }
 
     try {
-
-      const result =
-        await this.modeler.saveXML({
-          format: true,
-        });
-
-      const xml =
-        result.xml;
-
+      const result = await this.modeler.saveXML({ format: true, });
+      const xml = result.xml;
       if (!xml) {
-
-        console.error(
-          'BPMN XML is empty.'
-        );
-
+        console.error('BPMN XML is empty.');
         return;
-
       }
-
-      console.log(
-        'BPMN XML:',
-        xml
-      );
-
+      console.log('BPMN XML:', xml);
       /*
        * TODO:
        *
@@ -427,20 +424,11 @@ export class Designer implements AfterViewInit, OnDestroy {
        */
 
       this.isDirty = false;
-
-      console.info(
-        'BPMN diagram saved successfully.'
-      );
+      console.info('BPMN diagram saved successfully.');
 
     } catch (error) {
-
-      console.error(
-        'Failed to save BPMN:',
-        error
-      );
-
+      console.error('Failed to save BPMN:', error);
     }
-
   }
 
   // =========================================================

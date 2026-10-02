@@ -12,7 +12,11 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "flat": false,
+          "addTypeToClassName": false,
+          "standalone": true,
+          "type": ""
         },
         "@schematics/angular:service": {
           "skipTests": true

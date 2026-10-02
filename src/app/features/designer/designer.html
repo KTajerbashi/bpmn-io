@@ -4,49 +4,23 @@
   <div class="designer-toolbar">
     <div class="toolbar-left">
       <div class="designer-action">
-        <button type="button" class="btn btn-primary" title="Create new diagram" (click)="newDiagram()">
-          New
-        </button>
-        <button type="button" class="btn btn-danger" title="Reset diagram" (click)="reset()">
-          Reset
-        </button>
-        <button type="button" class="btn btn-warning" title="Edit diagram" (click)="edit()">
-          Edit
-        </button>
-        <button type="button" class="btn btn-light" title="Save diagram as BPMN file" (click)="saveAs()">
-          Save As
-        </button>
-
-        <button type="button" class="btn btn-light" title="Save diagram as BPMN file" (click)="onLoadTemplates()">
-          Load Template
-        </button>
+        <button type="button" class="btn btn-outline-primary" (click)="onLoadDiagrams()">Load Diagrams</button>
+        <button type="button" class="btn btn-outline-success" [class.has-changes]="isDirty" (click)="save()">Save</button>
+        <button type="button" class="btn btn-primary" title="Create new diagram" (click)="newDiagram()">New</button>
+        <button type="button" class="btn btn-danger" title="Reset diagram" (click)="reset()">Reset</button>
+        <button type="button" class="btn btn-warning" title="Edit diagram" (click)="edit()">Edit</button>
+        <button type="button" class="btn btn-light" title="Save diagram as BPMN file" (click)="saveAs()">Save
+          As</button>
+        <button type="button" class="btn btn-light" title="Save diagram as BPMN file" (click)="onLoadTemplates()">Load
+          Template</button>
       </div>
     </div>
 
     <div class="toolbar-right">
-
-      <!-- Undo -->
-      <button type="button" class="btn btn-outline-dark" title="Undo" (click)="undo()">
-        undo
-      </button>
-
-      <!-- Redo -->
-      <button type="button" class="btn btn-outline-dark" title="Redo" (click)="redo()">
-        redo
-      </button>
-
+      <button type="button" class="btn btn-outline-dark" title="Undo" (click)="undo()">undo</button>
+      <button type="button" class="btn btn-outline-dark" title="Redo" (click)="redo()">redo</button>
       <div class="toolbar-divider"></div>
-
-      <!-- SVG -->
-      <button type="button" class="btn btn-outline-dark" title="Export SVG" (click)="exportSvg()">
-        image
-      </button>
-
-      <!-- Save -->
-      <button type="button" class="btn btn-outline-success" [class.has-changes]="isDirty" (click)="save()">
-        Save
-      </button>
-
+      <button type="button" class="btn btn-outline-dark" title="Export SVG" (click)="exportSvg()">image</button>
     </div>
 
   </div>
