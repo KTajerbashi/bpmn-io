@@ -27,7 +27,6 @@ import { DiagramList } from './dialogs/diagram-list/diagram-list';
   styleUrl: './designer.scss',
 })
 export class Designer implements AfterViewInit, OnDestroy {
-
   @ViewChild('canvas', { static: true })
   private canvas!: ElementRef<HTMLDivElement>;
   private modeler?: BpmnModeler;
@@ -58,11 +57,9 @@ export class Designer implements AfterViewInit, OnDestroy {
   private readonly dialogService = inject(DialogService);
 
   constructor() {
-
     afterNextRender(() => {
       void this.initializeModeler();
     });
-
   }
 
   // =========================================================
@@ -74,29 +71,20 @@ export class Designer implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
     this.destroyModeler();
-
   }
 
   onLoadDiagrams() {
-    console.log('[onLoadDiagrams]')
-    const dialogRef = this.dialogService.open(
-      DiagramList,
-      {
-        width: '600px',
-        data: {
-          title: 'Hello'
-        }
-      }
-    );
-    console.log('dialogRef', dialogRef)
-    dialogRef.afterClosed().subscribe(result => {
-
+    console.log('[onLoadDiagrams]');
+    const dialogRef = this.dialogService.open(DiagramList, {
+      data: { title: 'title', description: 'description' },
+      
+    });
+    console.log('dialogRef', dialogRef);
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Dialog result:', result);
       }
-
     });
   }
 
@@ -105,7 +93,6 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   private async initializeModeler(): Promise<void> {
-
     if (this.modeler) {
       return;
     }
@@ -113,16 +100,12 @@ export class Designer implements AfterViewInit, OnDestroy {
     const container = this.canvas?.nativeElement;
 
     if (!container) {
-
-      console.error(
-        'BPMN canvas element was not found.'
-      );
+      console.error('BPMN canvas element was not found.');
 
       return;
     }
 
     try {
-
       this.modeler = new BpmnModeler({
         container,
       });
@@ -135,21 +118,12 @@ export class Designer implements AfterViewInit, OnDestroy {
 
       this.isReady = true;
 
-      console.info(
-        'BPMN modeler initialized successfully.'
-      );
-
+      console.info('BPMN modeler initialized successfully.');
     } catch (error) {
-
-      console.error(
-        'Failed to initialize BPMN modeler:',
-        error
-      );
+      console.error('Failed to initialize BPMN modeler:', error);
 
       this.isReady = false;
-
     }
-
   }
 
   // =========================================================
@@ -157,23 +131,17 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   private initializeServices(): void {
-
     if (!this.modeler) {
       return;
     }
 
-    this.canvasService =
-      this.modeler.get('canvas') as Canvas;
+    this.canvasService = this.modeler.get('canvas') as Canvas;
 
-    this.commandStack =
-      this.modeler.get('commandStack') as CommandStack;
+    this.commandStack = this.modeler.get('commandStack') as CommandStack;
 
-    this.eventBus =
-      this.modeler.get('eventBus') as EventBus;
+    this.eventBus = this.modeler.get('eventBus') as EventBus;
 
-    this.selection =
-      this.modeler.get('selection') as Selection;
-
+    this.selection = this.modeler.get('selection') as Selection;
   }
 
   // =========================================================
@@ -181,7 +149,6 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   private registerEvents(): void {
-
     if (!this.eventBus) {
       return;
     }
@@ -189,87 +156,45 @@ export class Designer implements AfterViewInit, OnDestroy {
     /*
      * Any command executed inside BPMN.
      */
-    this.eventBus.on(
-      'commandStack.changed',
-      () => {
+    this.eventBus.on('commandStack.changed', () => {
+      this.isDirty = true;
 
-        this.isDirty = true;
-
-        this.updateZoomLevel();
-
-      }
-    );
+      this.updateZoomLevel();
+    });
 
     /*
      * Element selected.
      */
-    this.eventBus.on(
-      'selection.changed',
-      (event: any) => {
+    this.eventBus.on('selection.changed', (event: any) => {
+      const selection = event.newSelection ?? [];
 
-        const selection =
-          event.newSelection ?? [];
+      if (selection.length) {
+        const element = selection[0];
 
-        if (selection.length) {
-
-          const element =
-            selection[0];
-
-          console.debug(
-            'Selected BPMN element:',
-            element
-          );
-
-        }
-
+        console.debug('Selected BPMN element:', element);
       }
-    );
+    });
 
     /*
      * Element created.
      */
-    this.eventBus.on(
-      'shape.added',
-      (event: any) => {
-
-        console.debug(
-          'BPMN element added:',
-          event.element
-        );
-
-      }
-    );
+    this.eventBus.on('shape.added', (event: any) => {
+      console.debug('BPMN element added:', event.element);
+    });
 
     /*
      * Element removed.
      */
-    this.eventBus.on(
-      'shape.removed',
-      (event: any) => {
-
-        console.debug(
-          'BPMN element removed:',
-          event.element
-        );
-
-      }
-    );
+    this.eventBus.on('shape.removed', (event: any) => {
+      console.debug('BPMN element removed:', event.element);
+    });
 
     /*
      * Connection created.
      */
-    this.eventBus.on(
-      'connection.added',
-      (event: any) => {
-
-        console.debug(
-          'BPMN connection added:',
-          event.connection
-        );
-
-      }
-    );
-
+    this.eventBus.on('connection.added', (event: any) => {
+      console.debug('BPMN connection added:', event.connection);
+    });
   }
 
   // =========================================================
@@ -277,23 +202,15 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   private async createNewDiagram(): Promise<void> {
-
     if (!this.modeler) {
       return;
     }
 
     try {
-
-      const result =
-        await this.modeler.importXML(TEMPLATE);
+      const result = await this.modeler.importXML(TEMPLATE);
 
       if (result.warnings?.length) {
-
-        console.warn(
-          'BPMN import warnings:',
-          result.warnings
-        );
-
+        console.warn('BPMN import warnings:', result.warnings);
       }
 
       this.fitViewport();
@@ -301,16 +218,9 @@ export class Designer implements AfterViewInit, OnDestroy {
       this.isDirty = false;
 
       this.updateZoomLevel();
-
     } catch (error) {
-
-      console.error(
-        'Failed to import BPMN diagram:',
-        error
-      );
-
+      console.error('Failed to import BPMN diagram:', error);
     }
-
   }
 
   // =========================================================
@@ -318,26 +228,21 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async newDiagram(): Promise<void> {
-
     if (!this.modeler) {
       return;
     }
 
     if (this.isDirty) {
-
-      const confirmed =
-        window.confirm(
-          'The current diagram contains unsaved changes. Create a new diagram anyway?'
-        );
+      const confirmed = window.confirm(
+        'The current diagram contains unsaved changes. Create a new diagram anyway?',
+      );
 
       if (!confirmed) {
         return;
       }
-
     }
 
     await this.createNewDiagram();
-
   }
 
   // =========================================================
@@ -345,22 +250,17 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async reset(): Promise<void> {
-
     if (!this.modeler) {
       return;
     }
 
-    const confirmed =
-      window.confirm(
-        'Reset the current diagram to its initial state?'
-      );
+    const confirmed = window.confirm('Reset the current diagram to its initial state?');
 
     if (!confirmed) {
       return;
     }
 
     await this.createNewDiagram();
-
   }
 
   // =========================================================
@@ -368,7 +268,6 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public edit(): void {
-
     if (!this.modeler) {
       return;
     }
@@ -377,10 +276,7 @@ export class Designer implements AfterViewInit, OnDestroy {
 
     this.canvas?.nativeElement.focus();
 
-    console.info(
-      'BPMN editor mode enabled.'
-    );
-
+    console.info('BPMN editor mode enabled.');
   }
   // =========================================================
   // Save
@@ -393,7 +289,7 @@ export class Designer implements AfterViewInit, OnDestroy {
     }
 
     try {
-      const result = await this.modeler.saveXML({ format: true, });
+      const result = await this.modeler.saveXML({ format: true });
       const xml = result.xml;
       if (!xml) {
         console.error('BPMN XML is empty.');
@@ -417,7 +313,6 @@ export class Designer implements AfterViewInit, OnDestroy {
 
       this.isDirty = false;
       console.info('BPMN diagram saved successfully.');
-
     } catch (error) {
       console.error('Failed to save BPMN:', error);
     }
@@ -428,61 +323,41 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async saveAs(): Promise<void> {
-
     if (!this.modeler) {
       return;
     }
 
     try {
+      const result = await this.modeler.saveXML({
+        format: true,
+      });
 
-      const result =
-        await this.modeler.saveXML({
-          format: true,
-        });
-
-      const xml =
-        result.xml;
+      const xml = result.xml;
 
       if (!xml) {
         return;
       }
 
-      const blob =
-        new Blob(
-          [xml],
-          {
-            type: 'application/xml',
-          }
-        );
+      const blob = new Blob([xml], {
+        type: 'application/xml',
+      });
 
-      const url =
-        URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
 
-      const anchor =
-        document.createElement('a');
+      const anchor = document.createElement('a');
 
       anchor.href = url;
 
-      anchor.download =
-        `process-${this.getTimestamp()}.bpmn`;
+      anchor.download = `process-${this.getTimestamp()}.bpmn`;
 
       anchor.click();
 
       URL.revokeObjectURL(url);
 
-      console.info(
-        'BPMN diagram exported successfully.'
-      );
-
+      console.info('BPMN diagram exported successfully.');
     } catch (error) {
-
-      console.error(
-        'Failed to export BPMN:',
-        error
-      );
-
+      console.error('Failed to export BPMN:', error);
     }
-
   }
 
   // =========================================================
@@ -490,55 +365,37 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async exportSvg(): Promise<void> {
-
     if (!this.modeler) {
       return;
     }
 
     try {
+      const result = await this.modeler.saveSVG();
 
-      const result =
-        await this.modeler.saveSVG();
-
-      const svg =
-        result.svg;
+      const svg = result.svg;
 
       if (!svg) {
         return;
       }
 
-      const blob =
-        new Blob(
-          [svg],
-          {
-            type: 'image/svg+xml',
-          }
-        );
+      const blob = new Blob([svg], {
+        type: 'image/svg+xml',
+      });
 
-      const url =
-        URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
 
-      const anchor =
-        document.createElement('a');
+      const anchor = document.createElement('a');
 
       anchor.href = url;
 
-      anchor.download =
-        `process-${this.getTimestamp()}.svg`;
+      anchor.download = `process-${this.getTimestamp()}.svg`;
 
       anchor.click();
 
       URL.revokeObjectURL(url);
-
     } catch (error) {
-
-      console.error(
-        'Failed to export SVG:',
-        error
-      );
-
+      console.error('Failed to export SVG:', error);
     }
-
   }
 
   // =========================================================
@@ -546,7 +403,6 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public undo(): void {
-
     if (!this.commandStack) {
       return;
     }
@@ -556,7 +412,6 @@ export class Designer implements AfterViewInit, OnDestroy {
     }
 
     this.commandStack.undo();
-
   }
 
   // =========================================================
@@ -564,7 +419,6 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public redo(): void {
-
     if (!this.commandStack) {
       return;
     }
@@ -574,7 +428,6 @@ export class Designer implements AfterViewInit, OnDestroy {
     }
 
     this.commandStack.redo();
-
   }
 
   // =========================================================
@@ -582,23 +435,15 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public zoomIn(): void {
-
     if (!this.canvasService) {
       return;
     }
 
-    const current =
-      this.canvasService.zoom();
+    const current = this.canvasService.zoom();
 
-    this.canvasService.zoom(
-      Math.min(
-        current * 1.2,
-        4
-      )
-    );
+    this.canvasService.zoom(Math.min(current * 1.2, 4));
 
     this.updateZoomLevel();
-
   }
 
   // =========================================================
@@ -606,23 +451,15 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public zoomOut(): void {
-
     if (!this.canvasService) {
       return;
     }
 
-    const current =
-      this.canvasService.zoom();
+    const current = this.canvasService.zoom();
 
-    this.canvasService.zoom(
-      Math.max(
-        current / 1.2,
-        0.2
-      )
-    );
+    this.canvasService.zoom(Math.max(current / 1.2, 0.2));
 
     this.updateZoomLevel();
-
   }
 
   // =========================================================
@@ -630,17 +467,13 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public fitViewport(): void {
-
     if (!this.canvasService) {
       return;
     }
 
-    this.canvasService.zoom(
-      'fit-viewport'
-    );
+    this.canvasService.zoom('fit-viewport');
 
     this.updateZoomLevel();
-
   }
 
   // =========================================================
@@ -648,7 +481,6 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public resetZoom(): void {
-
     if (!this.canvasService) {
       return;
     }
@@ -656,7 +488,6 @@ export class Designer implements AfterViewInit, OnDestroy {
     this.canvasService.zoom(1);
 
     this.updateZoomLevel();
-
   }
 
   // =========================================================
@@ -664,13 +495,11 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public clearSelection(): void {
-
     if (!this.selection) {
       return;
     }
 
     this.selection.select([]);
-
   }
 
   // =========================================================
@@ -678,31 +507,21 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async getXml(): Promise<string | null> {
-
     if (!this.modeler) {
       return null;
     }
 
     try {
-
-      const result =
-        await this.modeler.saveXML({
-          format: true,
-        });
+      const result = await this.modeler.saveXML({
+        format: true,
+      });
 
       return result.xml ?? null;
-
     } catch (error) {
-
-      console.error(
-        'Failed to generate BPMN XML:',
-        error
-      );
+      console.error('Failed to generate BPMN XML:', error);
 
       return null;
-
     }
-
   }
 
   // =========================================================
@@ -710,29 +529,19 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   public async getSvg(): Promise<string | null> {
-
     if (!this.modeler) {
       return null;
     }
 
     try {
-
-      const result =
-        await this.modeler.saveSVG();
+      const result = await this.modeler.saveSVG();
 
       return result.svg ?? null;
-
     } catch (error) {
-
-      console.error(
-        'Failed to generate BPMN SVG:',
-        error
-      );
+      console.error('Failed to generate BPMN SVG:', error);
 
       return null;
-
     }
-
   }
 
   // =========================================================
@@ -740,22 +549,14 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   private destroyModeler(): void {
-
     if (!this.modeler) {
       return;
     }
 
     try {
-
       this.modeler.destroy();
-
     } catch (error) {
-
-      console.error(
-        'Failed to destroy BPMN modeler:',
-        error
-      );
-
+      console.error('Failed to destroy BPMN modeler:', error);
     }
 
     this.modeler = undefined;
@@ -769,7 +570,6 @@ export class Designer implements AfterViewInit, OnDestroy {
     this.selection = undefined;
 
     this.isReady = false;
-
   }
 
   // =========================================================
@@ -777,37 +577,20 @@ export class Designer implements AfterViewInit, OnDestroy {
   // =========================================================
 
   private updateZoomLevel(): void {
-
     if (!this.canvasService) {
       return;
     }
 
-    const zoom =
-      this.canvasService.zoom();
+    const zoom = this.canvasService.zoom();
 
     if (typeof zoom === 'number') {
-
-      this.zoomLevel =
-        Math.round(
-          zoom * 100
-        );
-
+      this.zoomLevel = Math.round(zoom * 100);
     }
-
   }
 
   private getTimestamp(): string {
+    const now = new Date();
 
-    const now =
-      new Date();
-
-    return now
-      .toISOString()
-      .replace(
-        /[:.]/g,
-        '-'
-      );
-
+    return now.toISOString().replace(/[:.]/g, '-');
   }
-
 }

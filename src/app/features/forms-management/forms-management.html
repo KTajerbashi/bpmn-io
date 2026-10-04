@@ -1,1 +1,156 @@
-<p>forms-management works!</p>
+<div class="container-fluid mt-4">
+  <h3 class="mb-4">Forms Management</h3>
+
+  <!-- ============================= -->
+  <!-- FORM (create / edit)          -->
+  <!-- ============================= -->
+  <form novalidate [formGroup]="form" (ngSubmit)="onSubmit()" class="card p-3 mb-4">
+    <h5 class="mb-3">{{ isEditing ? 'Edit Form' : 'New Form' }}</h5>
+
+    <div class="row">
+      <!-- ID -->
+      <div class="col-12 mb-3">
+        <label for="id" class="form-label">Id</label>
+        <input
+          class="form-control"
+          id="id"
+          type="number"
+          placeholder="Id ..."
+          formControlName="id"
+        />
+        <div
+          *ngIf="form.get('id')?.invalid && form.get('id')?.touched"
+          class="text-danger small mt-1"
+        >
+          Id is required.
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="col-12 mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          class="form-control"
+          id="title"
+          type="text"
+          placeholder="Title ..."
+          formControlName="title"
+        />
+        <div
+          *ngIf="form.get('title')?.invalid && form.get('title')?.touched"
+          class="text-danger small mt-1"
+        >
+          Title is required.
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-12 mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input
+          class="form-control"
+          id="description"
+          type="text"
+          placeholder="Description ..."
+          formControlName="description"
+        />
+      </div>
+
+      <!-- Version -->
+      <div class="col-12 mb-3">
+        <label for="version" class="form-label">Version</label>
+        <input
+          class="form-control"
+          id="version"
+          type="text"
+          placeholder="Version ..."
+          formControlName="version"
+        />
+      </div>
+
+      <!-- Dynamic Options -->
+      <div class="col-12 mb-3">
+        <h6 class="border-bottom pb-2">Options</h6>
+        <div formArrayName="option">
+          <div
+            *ngFor="let opt of options.controls; let i = index"
+            [formGroupName]="i"
+            class="row align-items-center mb-2"
+          >
+            <div class="col-md-3">
+              <label class="form-label text-capitalize mb-0">
+                {{ opt.get('key')?.value }}
+              </label>
+            </div>
+            <div class="col-md-9">
+              <input
+                class="form-control"
+                type="text"
+                [placeholder]="opt.get('key')?.value + ' ...'"
+                formControlName="value"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="col-12 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">
+          {{ isEditing ? 'Update' : 'Create' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="resetForm()">
+          {{ isEditing ? 'Cancel' : 'Reset' }}
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- ============================= -->
+  <!-- LIST                           -->
+  <!-- ============================= -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <strong>Forms</strong>
+      <span class="badge bg-secondary">{{ forms.length }}</span>
+    </div>
+
+    <div class="table-responsive" *ngIf="forms.length; else emptyState">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Version</th>
+            <th *ngFor="let key of formOptionKeys" class="text-capitalize">
+              {{ key }}
+            </th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of forms; let i = index">
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.version }}</td>
+            <td *ngFor="let key of formOptionKeys">
+              {{ getOptionValue(item, key) }}
+            </td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-primary me-1" (click)="editForm(i)">
+                Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" (click)="deleteForm(i)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="p-4 text-center text-muted">No forms yet. Create one above.</div>
+    </ng-template>
+  </div>
+</div>

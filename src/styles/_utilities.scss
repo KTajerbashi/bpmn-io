@@ -1,6 +1,10 @@
+.form-label {
+  color: rgba(255, 255, 255, 0.8);
+}
 .form-control {
   background: rgba(0, 0, 0, 0.1);
   color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .form-control::placeholder {
   color: rgba(245, 222, 179, 0.452);
@@ -44,4 +48,8 @@
   color: white;
   border: 1px solid rgb(0, 81, 95);
   box-shadow: 0 0 2px 2px rgba(29, 67, 124, 0.2);
+}
+.card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 235, 205, 0.2);
 }
